@@ -1,0 +1,6 @@
+{
+  "name": "FoodRescue India",
+  "description": "A food surplus redistribution platform connecting restaurants, donors, NGOs, shelters, and volunteer drivers with real-time dispatch and INR donation sponsorship.",
+  "requestFramePermissions": ["geolocation"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,50 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --bg-app: #f8f9ff;
+  --text-main: #0b1c30;
+}
+
+.dark {
+  --bg-app: #0a0f1d;
+  --text-main: #f1f5f9;
+  color-scheme: dark;
+}
+
+body {
+  background-color: var(--bg-app);
+  color: var(--text-main);
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+h1, h2, h3, .font-heading {
+  font-family: 'Outfit', 'Plus Jakarta Sans', sans-serif;
+}
+
+/* Custom subtle scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #eff4ff;
+}
+.dark ::-webkit-scrollbar-track {
+  background: #131b2e;
+}
+::-webkit-scrollbar-thumb {
+  background: #c3d3ec;
+  border-radius: 9999px;
+}
+.dark ::-webkit-scrollbar-thumb {
+  background: #2b3954;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #9ab4d6;
+}
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #3e5073;
+}
