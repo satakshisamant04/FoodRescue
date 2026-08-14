@@ -1,4 +1,4 @@
-import { FoodDonation, NGOBroadcastRequest, PlatformStats, UserProfile, UserRole } from '../types';
+import { ActivityItem, FoodDonation, NGOBroadcastRequest, PlatformStats, UserProfile, UserRole } from '../types';
 
 export const api = {
   async register(userData: {
@@ -44,6 +44,17 @@ export const api = {
     }
   },
 
+  async getMe(email: string): Promise<UserProfile | null> {
+    try {
+      const res = await fetch(`/api/auth/me?email=${encodeURIComponent(email)}`);
+      if (!res.ok) return null;
+      const data = await res.json();
+      return data.user || null;
+    } catch {
+      return null;
+    }
+  },
+
   async getDemoUsers(): Promise<UserProfile[] | null> {
     try {
       const res = await fetch('/api/auth/demo-users');
@@ -55,9 +66,30 @@ export const api = {
     }
   },
 
+  async getDbStatus(): Promise<{ success: boolean; engine: string; isMongo: boolean; totalUsers: number; totalDonations: number } | null> {
+    try {
+      const res = await fetch('/api/db-status');
+      if (!res.ok) return null;
+      return await res.json();
+    } catch {
+      return null;
+    }
+  },
+
   async getStats(): Promise<PlatformStats | null> {
     try {
       const res = await fetch('/api/stats');
+      if (!res.ok) return null;
+      const data = await res.json();
+      return data.data;
+    } catch {
+      return null;
+    }
+  },
+
+  async getActivities(): Promise<ActivityItem[] | null> {
+    try {
+      const res = await fetch('/api/activities');
       if (!res.ok) return null;
       const data = await res.json();
       return data.data;
@@ -141,14 +173,16 @@ export const api = {
 
   async updateVolunteerStatus(
     id: string,
-    status: 'picked_up' | 'delivered'
+    status: 'picked_up' | 'delivered',
+    volunteerId?: string
   ): Promise<FoodDonation | null> {
     try {
       const res = await fetch(`/api/donations/${id}/status`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          status: status === 'delivered' ? 'completed' : 'in_transit'
+          status: status === 'delivered' ? 'completed' : 'in_transit',
+          volunteerId
         })
       });
       if (!res.ok) return null;

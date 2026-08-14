@@ -110,17 +110,50 @@ export default function App() {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [infoModalType, setInfoModalType] = useState<'about' | 'contact' | 'privacy' | 'terms' | 'volunteer' | 'donate' | null>(null);
 
-  // Fetch initial data from server if reachable
+  // Fetch initial data from persistent database on load
   useEffect(() => {
+    // 1. Load Platform Stats
     api.getStats().then(serverStats => {
       if (serverStats) setPlatformStats(serverStats);
     });
+
+    // 2. Load Donations
     api.getDonations().then(serverDonations => {
-      if (serverDonations) setDonations(serverDonations);
+      if (serverDonations && serverDonations.length > 0) {
+        setDonations(serverDonations);
+      }
     });
+
+    // 3. Load Activities
+    api.getActivities().then(serverActs => {
+      if (serverActs && serverActs.length > 0) {
+        setActivities(serverActs);
+      }
+    });
+
+    // 4. Sync current user data from database if logged in
+    const savedUserRaw = localStorage.getItem('foodrescue_auth_user');
+    if (savedUserRaw) {
+      try {
+        const parsed = JSON.parse(savedUserRaw);
+        if (parsed?.email) {
+          api.getMe(parsed.email).then(remoteUser => {
+            if (remoteUser) {
+              setCurrentUser(remoteUser);
+              setSavedAccounts(prev => {
+                const filtered = prev.filter(u => u.email.toLowerCase() !== remoteUser.email.toLowerCase());
+                return [remoteUser, ...filtered];
+              });
+            }
+          });
+        }
+      } catch {
+        // ignore parse error
+      }
+    }
   }, []);
 
-  // Sync to local storage
+  // Sync to local storage for instant offline fallback
   useEffect(() => {
     localStorage.setItem('foodrescue_stats_v3', JSON.stringify(platformStats));
   }, [platformStats]);
@@ -153,7 +186,7 @@ export default function App() {
   }, [currentUser]);
 
   // Auth Handlers
-  const handleRegister = ({ 
+  const handleRegister = async ({ 
     name, 
     email, 
     phone, 
@@ -178,7 +211,7 @@ export default function App() {
     const newUser: UserProfile = {
       id: `user-${role}-${Date.now()}`,
       name: name || 'Partner User',
-      email: email || `${role}@foodrescue.in`,
+      email: (email || `${role}@foodrescue.in`).toLowerCase(),
       phone: phone || '+91 94370 12345',
       role,
       organization: organization || (role === 'donor' ? `${name} Kitchen` : role === 'ngo' ? `${name} Relief Shelter` : undefined),
@@ -194,6 +227,24 @@ export default function App() {
         volunteerHours: 0
       }
     };
+
+    // Store in backend database
+    api.register({
+      name: newUser.name,
+      email: newUser.email,
+      phone: newUser.phone,
+      role: newUser.role,
+      organization: newUser.organization,
+      city: newUser.city,
+      address: newUser.address,
+      fssaiNumber: newUser.fssaiNumber,
+      vehicleType: newUser.vehicleType
+    }).then(res => {
+      if (res?.user) {
+        setCurrentUser(res.user);
+      }
+    });
+
     setCurrentUser(newUser);
     setActiveRole(role);
     setSavedAccounts(prev => {
@@ -212,13 +263,27 @@ export default function App() {
     }));
   };
 
-  const handleLogin = ({ email, role, user }: { email: string; password?: string; role: UserRole; user?: UserProfile }) => {
+  const handleLogin = async ({ email, role, user }: { email: string; password?: string; role: UserRole; user?: UserProfile }) => {
     if (user) {
       setCurrentUser(user);
       setActiveRole(user.role);
       setSavedAccounts(prev => {
         const filtered = prev.filter(u => u.email.toLowerCase() !== user.email.toLowerCase());
         return [user, ...filtered];
+      });
+      setIsLoggedIn(true);
+      setCurrentView('portal');
+      return;
+    }
+
+    // Try logging in with backend database
+    const loginRes = await api.login({ email, role });
+    if (loginRes?.success && loginRes.user) {
+      setCurrentUser(loginRes.user);
+      setActiveRole(loginRes.user.role);
+      setSavedAccounts(prev => {
+        const filtered = prev.filter(u => u.email.toLowerCase() !== loginRes.user!.email.toLowerCase());
+        return [loginRes.user!, ...filtered];
       });
     } else {
       const existingAccount = savedAccounts.find(u => u.email.toLowerCase() === email.toLowerCase() && u.role === role)
@@ -232,7 +297,7 @@ export default function App() {
         const loggedUser: UserProfile = {
           id: `user-${role}-${Date.now()}`,
           name: fallbackName,
-          email: email || `${role}@foodrescue.in`,
+          email: (email || `${role}@foodrescue.in`).toLowerCase(),
           phone: '+91 94370 12345',
           role,
           organization: role === 'donor' ? 'Mayfair Convention Hotel' : role === 'ngo' ? 'Asha Child Shelter Foundation' : undefined,
@@ -246,6 +311,16 @@ export default function App() {
             volunteerHours: 0
           }
         };
+        // Register in DB
+        api.register({
+          name: loggedUser.name,
+          email: loggedUser.email,
+          phone: loggedUser.phone,
+          role: loggedUser.role,
+          organization: loggedUser.organization,
+          city: loggedUser.city,
+          vehicleType: loggedUser.vehicleType
+        });
         setCurrentUser(loggedUser);
         setActiveRole(role);
         setSavedAccounts(prev => [loggedUser, ...prev.filter(u => u.id !== loggedUser.id)]);
