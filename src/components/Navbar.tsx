@@ -14,6 +14,7 @@ import {
   ChevronDown,
   LogIn,
   UserPlus,
+  Trash2,
   Sun,
   Moon
 } from 'lucide-react';
@@ -33,6 +34,7 @@ interface NavbarProps {
   onOpenNewDonation: () => void;
   onOpenDonateFunds: () => void;
   onOpenAuth: (tab: 'login' | 'register', role?: UserRole) => void;
+  onDeleteUser?: (id: string) => void; 
   onOpenProfile: () => void;
   onLogout: () => void;
   totalMealsRescued: number;
@@ -51,10 +53,12 @@ export const Navbar: React.FC<NavbarProps> = ({
   onOpenNewDonation,
   onOpenDonateFunds,
   onOpenAuth,
+  onDeleteUser, 
   onOpenProfile,
   onLogout
 }) => {
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
+  const [deleteConfirmUser, setDeleteConfirmUser] = useState<UserProfile | null>(null);
 
   const otherAccounts = savedAccounts.filter(acc => acc.id !== user.id);
 
@@ -217,114 +221,133 @@ export const Navbar: React.FC<NavbarProps> = ({
                       className="fixed inset-0 z-30" 
                       onClick={() => setUserDropdownOpen(false)}
                     />
-                    <div className="absolute right-0 mt-2 w-72 bg-white dark:bg-[#111c30] rounded-2xl shadow-2xl border border-[#d3e4fe] dark:border-[#243452] py-2 z-40 animate-fadeIn">
+                    <div className="absolute right-0 mt-2 w-80 max-h-[calc(100vh-80px)] flex flex-col bg-white dark:bg-[#111c30] rounded-2xl shadow-2xl border border-[#d3e4fe] dark:border-[#243452] z-40 animate-fadeIn overflow-hidden">
                       
-                      {/* Active Profile Header */}
-                      <div className="px-4 py-3 border-b border-[#e5eeff] dark:border-[#243452] bg-[#f8f9ff] dark:bg-[#16243d]">
-                        <div className="text-[10px] uppercase font-extrabold text-[#565e74] dark:text-[#94a3b8] tracking-wider mb-1">
-                          Current Signed-in Person
-                        </div>
-                        <div className="text-xs font-bold text-[#0b1c30] dark:text-white">{user.name}</div>
-                        <div className="text-[11px] text-[#565e74] dark:text-[#94a3b8] truncate">{user.email}</div>
-                        {user.organization && (
-                          <div className="text-[11px] font-semibold text-[#0b1c30] dark:text-[#cbd5e1] mt-0.5">
-                            {user.organization}
+                      {/* Scrollable Middle Container */}
+                      <div className="overflow-y-auto flex-1">
+                        {/* Active Profile Header */}
+                        <div className="px-4 py-3 border-b border-[#e5eeff] dark:border-[#243452] bg-[#f8f9ff] dark:bg-[#16243d]">
+                          <div className="text-[10px] uppercase font-extrabold text-[#565e74] dark:text-[#94a3b8] tracking-wider mb-1">
+                            Current Signed-in Person
                           </div>
-                        )}
-                        <div className="mt-1.5 flex items-center gap-1.5">
-                          <span className={`px-2 py-0.5 rounded-full text-[10px] font-black uppercase ${
-                            user.role === 'donor'
-                              ? 'bg-[#ffdad2] dark:bg-[#ae3115]/30 text-[#8c1900] dark:text-[#ffb4a3]'
-                              : user.role === 'ngo'
-                              ? 'bg-blue-100 dark:bg-blue-950/40 text-blue-900 dark:text-blue-300'
-                              : 'bg-emerald-100 dark:bg-emerald-950/40 text-emerald-900 dark:text-emerald-300'
-                          }`}>
-                            {user.role === 'donor' ? 'Food Donor' : user.role === 'ngo' ? 'NGO Shelter' : 'Volunteer Driver'}
-                          </span>
-                          <span className="text-[10px] text-[#565e74] dark:text-[#94a3b8]">
-                            • {user.city}
-                          </span>
+                          <div className="text-xs font-bold text-[#0b1c30] dark:text-white">{user.name}</div>
+                          <div className="text-[11px] text-[#565e74] dark:text-[#94a3b8] truncate">{user.email}</div>
+                          {user.organization && (
+                            <div className="text-[11px] font-semibold text-[#0b1c30] dark:text-[#cbd5e1] mt-0.5">
+                              {user.organization}
+                            </div>
+                          )}
+                          <div className="mt-1.5 flex items-center gap-1.5">
+                            <span className={`px-2 py-0.5 rounded-full text-[10px] font-black uppercase ${
+                              user.role === 'donor'
+                                ? 'bg-[#ffdad2] dark:bg-[#ae3115]/30 text-[#8c1900] dark:text-[#ffb4a3]'
+                                : user.role === 'ngo'
+                                ? 'bg-blue-100 dark:bg-blue-950/40 text-blue-900 dark:text-blue-300'
+                                : 'bg-emerald-100 dark:bg-emerald-950/40 text-emerald-900 dark:text-emerald-300'
+                            }`}>
+                              {user.role === 'donor' ? 'Food Donor' : user.role === 'ngo' ? 'NGO Shelter' : 'Volunteer Driver'}
+                            </span>
+                            <span className="text-[10px] text-[#565e74] dark:text-[#94a3b8]">
+                              • {user.city}
+                            </span>
+                          </div>
                         </div>
-                      </div>
 
-                      {/* Switch to Other Registered Persons */}
-                      {otherAccounts.length > 0 && (
-                        <div className="px-4 py-2 border-b border-[#e5eeff] dark:border-[#243452]">
-                          <div className="text-[10px] uppercase font-extrabold text-[#565e74] dark:text-[#94a3b8] tracking-wider mb-2">
-                            Switch to Another Person:
-                          </div>
-                          <div className="space-y-1.5">
-                            {otherAccounts.map(account => (
-                              <button
-                                key={account.id}
-                                onClick={() => {
-                                  onSwitchAccount(account);
-                                  setUserDropdownOpen(false);
-                                }}
-                                className="w-full p-2 text-left bg-[#eff4ff] dark:bg-[#16243d] hover:bg-[#ffdad2]/60 dark:hover:bg-[#203050] rounded-xl transition-all flex items-center justify-between gap-2 cursor-pointer border border-[#d3e4fe] dark:border-[#2b3e64]"
-                              >
-                                <div className="min-w-0">
-                                  <div className="text-xs font-bold text-[#0b1c30] dark:text-white truncate">{account.name}</div>
-                                  <div className="text-[10px] text-[#565e74] dark:text-[#94a3b8] truncate">
-                                    {account.organization || account.email}
+                        {/* Switch to Other Registered Persons */}
+                        {otherAccounts.length > 0 && (
+                          <div className="px-4 py-2 border-b border-[#e5eeff] dark:border-[#243452]">
+                            <div className="text-[10px] uppercase font-extrabold text-[#565e74] dark:text-[#94a3b8] tracking-wider mb-2">
+                              Switch to Another Person:
+                            </div>
+                            <div className="space-y-1.5 max-h-48 overflow-y-auto pr-1">
+                              {otherAccounts.map(account => (
+                                <div
+                                  key={account.id}
+                                  onClick={() => {
+                                    onSwitchAccount(account);
+                                    setUserDropdownOpen(false);
+                                  }}
+                                  className="w-full p-2 text-left bg-[#eff4ff] dark:bg-[#16243d] hover:bg-[#ffdad2]/60 dark:hover:bg-[#203050] rounded-xl transition-all flex items-center justify-between gap-2 cursor-pointer border border-[#d3e4fe] dark:border-[#2b3e64] group"
+                                >
+                                  <div className="min-w-0 pr-1">
+                                    <div className="text-xs font-bold text-[#0b1c30] dark:text-white truncate">{account.name}</div>
+                                    <div className="text-[10px] text-[#565e74] dark:text-[#94a3b8] truncate">
+                                      {account.organization || account.email}
+                                    </div>
+                                  </div>
+                                  <div className="flex items-center gap-1.5 shrink-0">
+                                    <span className={`px-2 py-0.5 rounded-md text-[9px] font-extrabold uppercase ${
+                                      account.role === 'donor'
+                                        ? 'bg-[#ffdad2] dark:bg-[#ae3115]/30 text-[#8c1900] dark:text-[#ffb4a3]'
+                                        : account.role === 'ngo'
+                                        ? 'bg-blue-100 dark:bg-blue-950/40 text-blue-800 dark:text-blue-300'
+                                        : 'bg-emerald-100 dark:bg-emerald-950/40 text-emerald-800 dark:text-emerald-300'
+                                    }`}>
+                                      {account.role}
+                                    </span>
+                                    {onDeleteUser && (
+                                      <button
+                                        type="button"
+                                        onClick={(e) => {
+                                          e.stopPropagation();
+                                          e.preventDefault();
+                                          setDeleteConfirmUser(account);
+                                        }}
+                                        className="p-1.5 text-stone-400 hover:text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/40 rounded-lg transition-colors cursor-pointer"
+                                        title="Delete account"
+                                      >
+                                        <Trash2 className="w-3.5 h-3.5 text-rose-500 hover:text-rose-600" />
+                                      </button>
+                                    )}
                                   </div>
                                 </div>
-                                <span className={`shrink-0 px-2 py-0.5 rounded-md text-[9px] font-extrabold uppercase ${
-                                  account.role === 'donor'
-                                    ? 'bg-[#ffdad2] dark:bg-[#ae3115]/30 text-[#8c1900] dark:text-[#ffb4a3]'
-                                    : account.role === 'ngo'
-                                    ? 'bg-blue-100 dark:bg-blue-950/40 text-blue-800 dark:text-blue-300'
-                                    : 'bg-emerald-100 dark:bg-emerald-950/40 text-emerald-800 dark:text-emerald-300'
-                                }`}>
-                                  {account.role}
-                                </span>
-                              </button>
-                            ))}
+                              ))}
+                            </div>
                           </div>
-                        </div>
-                      )}
+                        )}
 
-                      {/* Register / Sign in as New Person with Specific Role */}
-                      <div className="py-2 px-2 border-b border-[#e5eeff] dark:border-[#243452]">
-                        <div className="text-[10px] uppercase font-extrabold text-[#565e74] dark:text-[#94a3b8] tracking-wider px-2 mb-1.5">
-                          Add / Register Another Person:
-                        </div>
-                        <div className="grid grid-cols-3 gap-1">
-                          <button
-                            onClick={() => {
-                              onRegisterNewRole('donor');
-                              setUserDropdownOpen(false);
-                            }}
-                            className="p-1.5 text-center bg-[#eff4ff] dark:bg-[#16243d] hover:bg-[#ffdad2] dark:hover:bg-[#203050] rounded-lg text-[10px] font-bold text-[#0b1c30] dark:text-white transition-colors cursor-pointer"
-                          >
-                            + Donor
-                          </button>
-                          <button
-                            onClick={() => {
-                              onRegisterNewRole('ngo');
-                              setUserDropdownOpen(false);
-                            }}
-                            className="p-1.5 text-center bg-[#eff4ff] dark:bg-[#16243d] hover:bg-[#ffdad2] dark:hover:bg-[#203050] rounded-lg text-[10px] font-bold text-[#0b1c30] dark:text-white transition-colors cursor-pointer"
-                          >
-                            + NGO
-                          </button>
-                          <button
-                            onClick={() => {
-                              onRegisterNewRole('volunteer');
-                              setUserDropdownOpen(false);
-                            }}
-                            className="p-1.5 text-center bg-[#eff4ff] dark:bg-[#16243d] hover:bg-[#ffdad2] dark:hover:bg-[#203050] rounded-lg text-[10px] font-bold text-[#0b1c30] dark:text-white transition-colors cursor-pointer"
-                          >
-                            + Driver
-                          </button>
+                        {/* Register / Sign in as New Person with Specific Role */}
+                        <div className="py-2 px-3 border-b border-[#e5eeff] dark:border-[#243452]">
+                          <div className="text-[10px] uppercase font-extrabold text-[#565e74] dark:text-[#94a3b8] tracking-wider mb-1.5">
+                            Add / Register Another Person:
+                          </div>
+                          <div className="grid grid-cols-3 gap-1">
+                            <button
+                              onClick={() => {
+                                onRegisterNewRole('donor');
+                                setUserDropdownOpen(false);
+                              }}
+                              className="p-1.5 text-center bg-[#eff4ff] dark:bg-[#16243d] hover:bg-[#ffdad2] dark:hover:bg-[#203050] rounded-lg text-[10px] font-bold text-[#0b1c30] dark:text-white transition-colors cursor-pointer"
+                            >
+                              + Donor
+                            </button>
+                            <button
+                              onClick={() => {
+                                onRegisterNewRole('ngo');
+                                setUserDropdownOpen(false);
+                              }}
+                              className="p-1.5 text-center bg-[#eff4ff] dark:bg-[#16243d] hover:bg-[#ffdad2] dark:hover:bg-[#203050] rounded-lg text-[10px] font-bold text-[#0b1c30] dark:text-white transition-colors cursor-pointer"
+                            >
+                              + NGO
+                            </button>
+                            <button
+                              onClick={() => {
+                                onRegisterNewRole('volunteer');
+                                setUserDropdownOpen(false);
+                              }}
+                              className="p-1.5 text-center bg-[#eff4ff] dark:bg-[#16243d] hover:bg-[#ffdad2] dark:hover:bg-[#203050] rounded-lg text-[10px] font-bold text-[#0b1c30] dark:text-white transition-colors cursor-pointer"
+                            >
+                              + Driver
+                            </button>
+                          </div>
                         </div>
                       </div>
 
-                      {/* Profile & Logout Links */}
-                      <div className="py-1">
+                      {/* Fixed Profile & Logout Links at Bottom */}
+                      <div className="p-2 border-t border-[#e5eeff] dark:border-[#243452] bg-[#f8f9ff] dark:bg-[#16243d] space-y-1">
                         <button
                           onClick={() => { onOpenProfile(); setUserDropdownOpen(false); }}
-                          className="w-full px-4 py-2 text-left text-xs font-semibold text-[#0b1c30] dark:text-white hover:bg-[#eff4ff] dark:hover:bg-[#16243d] flex items-center gap-2 cursor-pointer"
+                          className="w-full px-3 py-1.5 rounded-lg text-left text-xs font-semibold text-[#0b1c30] dark:text-white hover:bg-[#eff4ff] dark:hover:bg-[#203050] flex items-center gap-2 cursor-pointer transition-colors"
                         >
                           <User className="w-3.5 h-3.5 text-[#ae3115] dark:text-[#ff7e62]" />
                           <span>View Profile & Credentials</span>
@@ -332,17 +355,15 @@ export const Navbar: React.FC<NavbarProps> = ({
                         
                         <button
                           onClick={() => { onOpenAuth('login'); setUserDropdownOpen(false); }}
-                          className="w-full px-4 py-2 text-left text-xs font-semibold text-[#0b1c30] dark:text-white hover:bg-[#eff4ff] dark:hover:bg-[#16243d] flex items-center gap-2 cursor-pointer"
+                          className="w-full px-3 py-1.5 rounded-lg text-left text-xs font-semibold text-[#0b1c30] dark:text-white hover:bg-[#eff4ff] dark:hover:bg-[#203050] flex items-center gap-2 cursor-pointer transition-colors"
                         >
                           <LogIn className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
                           <span>Sign In / Switch Person</span>
                         </button>
-                      </div>
 
-                      <div className="pt-1 border-t border-[#e5eeff] dark:border-[#243452]">
                         <button
                           onClick={() => { onLogout(); setUserDropdownOpen(false); }}
-                          className="w-full px-4 py-2 text-left text-xs font-bold text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/30 flex items-center gap-2 cursor-pointer"
+                          className="w-full px-3 py-1.5 rounded-lg text-left text-xs font-bold text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/30 flex items-center gap-2 cursor-pointer transition-colors"
                         >
                           <LogOut className="w-3.5 h-3.5" />
                           <span>Sign Out</span>
@@ -371,6 +392,48 @@ export const Navbar: React.FC<NavbarProps> = ({
                   <UserPlus className="w-3.5 h-3.5" />
                   <span>Register</span>
                 </button>
+              </div>
+            )}
+
+            {/* In-App Delete Confirmation Modal (Avoids window.confirm popup blocking) */}
+            {deleteConfirmUser && (
+              <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs animate-fadeIn">
+                <div className="bg-white dark:bg-[#111c30] rounded-2xl max-w-sm w-full p-5 border border-rose-200 dark:border-rose-900 shadow-2xl space-y-4">
+                  <div className="flex items-center gap-3 text-rose-600 dark:text-rose-400">
+                    <div className="p-2.5 bg-rose-100 dark:bg-rose-950/60 rounded-xl">
+                      <Trash2 className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <h4 className="text-sm font-bold text-stone-900 dark:text-white">Delete Profile?</h4>
+                      <p className="text-xs text-stone-500 dark:text-stone-400">Permanently remove account from database.</p>
+                    </div>
+                  </div>
+                  <div className="p-3 bg-[#eff4ff] dark:bg-[#16243d] rounded-xl border border-[#d3e4fe] dark:border-[#2b3e64] text-xs">
+                    <div className="font-bold text-[#0b1c30] dark:text-white">{deleteConfirmUser.name}</div>
+                    <div className="text-[#565e74] dark:text-[#94a3b8] font-mono text-[11px] truncate">{deleteConfirmUser.email}</div>
+                    <div className="text-[10px] font-extrabold text-[#ae3115] dark:text-[#ff7e62] uppercase mt-1">Role: {deleteConfirmUser.role}</div>
+                  </div>
+                  <div className="flex items-center gap-2 pt-2">
+                    <button
+                      type="button"
+                      onClick={() => setDeleteConfirmUser(null)}
+                      className="flex-1 py-2 rounded-xl text-xs font-semibold bg-stone-100 dark:bg-stone-800 hover:bg-stone-200 dark:hover:bg-stone-700 text-stone-700 dark:text-stone-300 transition-colors cursor-pointer"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        if (onDeleteUser) onDeleteUser(deleteConfirmUser.id);
+                        setDeleteConfirmUser(null);
+                        setUserDropdownOpen(false);
+                      }}
+                      className="flex-1 py-2 rounded-xl text-xs font-bold bg-rose-600 hover:bg-rose-700 text-white shadow-sm transition-colors cursor-pointer"
+                    >
+                      Delete Permanently
+                    </button>
+                  </div>
+                </div>
               </div>
             )}
 

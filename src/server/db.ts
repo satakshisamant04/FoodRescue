@@ -429,6 +429,28 @@ export const db = {
     return store.users[idx];
   },
 
+  async deleteUser(id: string): Promise<boolean> {
+    const user = store.users.find(u => u.id === id);
+    if (!user) return false;
+
+    store.users = store.users.filter(u => u.id !== id);
+    if (user.role === 'donor' && store.stats.partnerRestaurants > 0) store.stats.partnerRestaurants -= 1;
+    if (user.role === 'ngo' && store.stats.verifiedNGOs > 0) store.stats.verifiedNGOs -= 1;
+    if (user.role === 'volunteer' && store.stats.activeVolunteers > 0) store.stats.activeVolunteers -= 1;
+
+    saveToDisk();
+
+    if (isMongoConnected) {
+      try {
+        await (UserModel as any).deleteOne({ id }).exec();
+        await (PlatformStatsModel as any).findOneAndUpdate({}, store.stats, { upsert: true }).exec();
+      } catch (err) {
+        console.error('[DB-Mongo] Error deleting user in MongoDB:', err);
+      }
+    }
+    return true;
+  },
+
   // DONATIONS
   getDonations(filters?: { status?: string; city?: string; category?: string }): FoodDonationItem[] {
     let result = [...store.donations];

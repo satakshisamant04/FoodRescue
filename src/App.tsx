@@ -338,6 +338,30 @@ export default function App() {
     setCurrentView('portal');
   };
 
+  const handleDeleteUser = async (userId: string) => {
+    try {
+      await api.deleteUser(userId);
+      setSavedAccounts(prev => {
+        const updated = prev.filter(u => u.id !== userId);
+        localStorage.setItem('foodrescue_saved_accounts_v1', JSON.stringify(updated));
+        return updated;
+      });
+      if (currentUser.id === userId) {
+        setIsLoggedIn(false);
+        setCurrentUser(DEFAULT_GUEST_USER);
+        localStorage.removeItem('foodrescue_auth_user');
+        localStorage.setItem('foodrescue_is_logged_in', 'false');
+        setIsProfileOpen(false);
+        setCurrentView('landing');
+      }
+      api.getStats().then(s => {
+        if (s) setPlatformStats(s);
+      });
+    } catch (err) {
+      console.error('Failed to delete account:', err);
+    }
+  };
+
   const handleRegisterNewRole = (role: UserRole) => {
     setAuthRole(role);
     setAuthTab('register');
@@ -681,6 +705,7 @@ export default function App() {
         onOpenDonateFunds={() => setIsDonateFundsOpen(true)}
         onOpenAuth={(tab, role) => handleOpenAuth(tab, role)}
         onOpenProfile={() => setIsProfileOpen(true)}
+        onDeleteUser={handleDeleteUser}
         onLogout={handleLogout}
         totalMealsRescued={platformStats.totalMealsRescued}
       />
@@ -817,6 +842,7 @@ export default function App() {
         onLogout={handleLogout}
         onSwitchAccount={handleSwitchAccount}
         onRegisterNewRole={handleRegisterNewRole}
+        onDeleteUser={handleDeleteUser}
       />
 
       <InfoModal

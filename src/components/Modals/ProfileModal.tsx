@@ -22,6 +22,7 @@ interface ProfileModalProps {
   onLogout: () => void;
   onSwitchAccount: (user: UserProfile) => void;
   onRegisterNewRole: (role: UserRole) => void;
+  onDeleteUser?: (id: string) => void;
 }
 
 export const ProfileModal: React.FC<ProfileModalProps> = ({
@@ -31,11 +32,15 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({
   onClose,
   onLogout,
   onSwitchAccount,
-  onRegisterNewRole
+  onRegisterNewRole,
+  onDeleteUser
 }) => {
+  const [deleteConfirmId, setDeleteConfirmId] = React.useState<string | null>(null);
+
   if (!isOpen) return null;
 
   const otherAccounts = savedAccounts.filter(acc => acc.id !== user.id);
+  const accountToDelete = savedAccounts.find(acc => acc.id === deleteConfirmId);
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#0b1c30]/70 dark:bg-black/80 backdrop-blur-xs animate-fadeIn">
@@ -154,30 +159,45 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({
               </div>
               <div className="space-y-2">
                 {otherAccounts.map(account => (
-                  <button
+                  <div
                     key={account.id}
                     onClick={() => {
                       onSwitchAccount(account);
                       onClose();
                     }}
-                    className="w-full p-3 rounded-xl bg-[#eff4ff] dark:bg-[#16243d] hover:bg-[#ffdad2]/70 dark:hover:bg-[#223554] border border-[#d3e4fe] dark:border-[#2b3e64] transition-all flex items-center justify-between cursor-pointer"
+                    className="w-full p-3 rounded-xl bg-[#eff4ff] dark:bg-[#16243d] hover:bg-[#ffdad2]/70 dark:hover:bg-[#223554] border border-[#d3e4fe] dark:border-[#2b3e64] transition-all flex items-center justify-between cursor-pointer group"
                   >
-                    <div className="text-left">
-                      <div className="text-xs font-bold text-[#0b1c30] dark:text-white">{account.name}</div>
-                      <div className="text-[11px] text-[#565e74] dark:text-[#94a3b8]">
+                    <div className="text-left min-w-0 pr-2">
+                      <div className="text-xs font-bold text-[#0b1c30] dark:text-white truncate">{account.name}</div>
+                      <div className="text-[11px] text-[#565e74] dark:text-[#94a3b8] truncate">
                         {account.organization || account.email} • {account.city}
                       </div>
                     </div>
-                    <span className={`px-2.5 py-1 rounded-lg text-[10px] font-black uppercase ${
-                      account.role === 'donor'
-                        ? 'bg-[#ffdad2] text-[#8c1900]'
-                        : account.role === 'ngo'
-                        ? 'bg-blue-100 text-blue-900'
-                        : 'bg-emerald-100 text-emerald-900'
-                    }`}>
-                      {account.role}
-                    </span>
-                  </button>
+                    <div className="flex items-center gap-2 shrink-0">
+                      <span className={`px-2.5 py-1 rounded-lg text-[10px] font-black uppercase ${
+                        account.role === 'donor'
+                          ? 'bg-[#ffdad2] text-[#8c1900]'
+                          : account.role === 'ngo'
+                          ? 'bg-blue-100 text-blue-900'
+                          : 'bg-emerald-100 text-emerald-900'
+                      }`}>
+                        {account.role}
+                      </span>
+                      {onDeleteUser && (
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setDeleteConfirmId(account.id);
+                          }}
+                          className="p-1.5 rounded-lg text-stone-400 hover:text-rose-600 hover:bg-rose-100 dark:hover:bg-rose-950/40 transition-colors"
+                          title="Delete account"
+                        >
+                          <X className="w-3.5 h-3.5" />
+                        </button>
+                      )}
+                    </div>
+                  </div>
                 ))}
               </div>
             </div>
@@ -234,6 +254,37 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({
           </div>
 
         </div>
+
+        {/* Delete Account Modal Confirmation */}
+        {accountToDelete && (
+          <div className="fixed inset-0 z-60 flex items-center justify-center p-4 bg-black/70 backdrop-blur-xs">
+            <div className="bg-white dark:bg-[#111c30] rounded-2xl max-w-sm w-full p-5 border border-rose-200 dark:border-rose-900 shadow-2xl space-y-4">
+              <div>
+                <h4 className="text-sm font-bold text-stone-900 dark:text-white">Delete Profile?</h4>
+                <p className="text-xs text-stone-500 dark:text-stone-400 mt-1">Permanently remove {accountToDelete.name} ({accountToDelete.role.toUpperCase()}) from MongoDB database and this device.</p>
+              </div>
+              <div className="flex items-center gap-2 pt-2">
+                <button
+                  type="button"
+                  onClick={() => setDeleteConfirmId(null)}
+                  className="flex-1 py-2 rounded-xl text-xs font-semibold bg-stone-100 dark:bg-stone-800 text-stone-700 dark:text-stone-300 hover:bg-stone-200 transition-colors"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (onDeleteUser) onDeleteUser(accountToDelete.id);
+                    setDeleteConfirmId(null);
+                  }}
+                  className="flex-1 py-2 rounded-xl text-xs font-bold bg-rose-600 hover:bg-rose-700 text-white shadow-sm transition-colors"
+                >
+                  Delete
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
 
       </div>
     </div>

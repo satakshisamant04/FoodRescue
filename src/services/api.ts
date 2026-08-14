@@ -66,6 +66,18 @@ export const api = {
     }
   },
 
+  async deleteUser(id: string): Promise<boolean> {
+    try {
+      const res = await fetch(`/api/auth/users/${encodeURIComponent(id)}`, {
+        method: 'DELETE'
+      });
+      const data = await res.json();
+      return Boolean(data.success);
+    } catch {
+      return false;
+    }
+  },
+
   async getDbStatus(): Promise<{ success: boolean; engine: string; isMongo: boolean; totalUsers: number; totalDonations: number } | null> {
     try {
       const res = await fetch('/api/db-status');

@@ -136,6 +136,19 @@ app.get('/api/auth/me', (req: Request, res: Response) => {
   res.json({ success: true, user: safeUser });
 });
 
+app.delete('/api/auth/users/:id', async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const deleted = await db.deleteUser(id);
+    if (!deleted) {
+      return res.status(404).json({ success: false, error: 'User account not found' });
+    }
+    res.json({ success: true, message: 'Account permanently deleted from MongoDB and local storage' });
+  } catch (err) {
+    res.status(500).json({ success: false, error: (err as Error).message });
+  }
+});
+
 // Platform Stats
 app.get('/api/stats', (_req: Request, res: Response) => {
   res.json({
