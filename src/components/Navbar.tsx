@@ -71,10 +71,17 @@ export const Navbar: React.FC<NavbarProps> = ({
           <div className="flex items-center gap-3">
             <button
               onClick={() => onSelectView('landing')}
-              className="flex items-center gap-2 text-left cursor-pointer group"
+              className="flex items-center gap-2.5 text-left cursor-pointer group"
             >
-              <div className="w-9 h-9 rounded-xl bg-[#ffdad2] dark:bg-[#ae3115]/30 flex items-center justify-center text-[#ae3115] dark:text-[#ff7e62] group-hover:scale-105 transition-transform">
-                <Heart className="w-5 h-5 fill-current" />
+              <div className="w-9 h-9 rounded-xl bg-[#ffdad2] dark:bg-[#ae3115]/30 overflow-hidden flex items-center justify-center text-[#ae3115] dark:text-[#ff7e62] group-hover:scale-105 transition-transform shadow-xs">
+                <img 
+                  src="/favicon.svg" 
+                  alt="FoodRescue" 
+                  className="w-full h-full object-cover"
+                  onError={(e) => {
+                    (e.currentTarget as HTMLElement).style.display = 'none';
+                  }} 
+                />
               </div>
               <div>
                 <span className="text-lg font-black text-[#0b1c30] dark:text-white tracking-tight group-hover:text-[#ae3115] dark:group-hover:text-[#ff7e62] transition-colors">

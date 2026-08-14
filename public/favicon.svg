@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <defs>
+    <linearGradient id="primaryGrad" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#ff7e62"/>
+      <stop offset="100%" stop-color="#ae3115"/>
+    </linearGradient>
+    <linearGradient id="leafGrad" x1="0" y1="0" x2="30" y2="30" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#4ade80"/>
+      <stop offset="100%" stop-color="#16a34a"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- App Icon Background Circle -->
+  <rect width="64" height="64" rx="16" fill="url(#primaryGrad)" />
+
+  <!-- Bowl / Cloche Base -->
+  <path d="M14 36C14 47.0457 22.0589 52 32 52C41.9411 52 50 47.0457 50 36H14Z" fill="#ffffff" opacity="0.95"/>
+  
+  <!-- Food / Heart steam shape -->
+  <path d="M32 17C29 12 21 13 21 20C21 27 32 33 32 33C32 33 43 27 43 20C43 13 35 12 32 17Z" fill="#ffffff"/>
+  
+  <!-- Green Leaf Accent -->
+  <path d="M38 12C38 12 47 11 49 18C44 19 39 16 38 12Z" fill="url(#leafGrad)"/>
+  
+  <!-- Steam lines -->
+  <circle cx="24" cy="12" r="1.5" fill="#ffffff" opacity="0.7"/>
+  <circle cx="32" cy="8" r="1.5" fill="#ffffff" opacity="0.9"/>
+</svg>
