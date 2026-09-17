@@ -26,7 +26,13 @@ An intelligent surplus food redistribution platform connecting commercial banque
 - **Real-Time Activity Feed**: Live ticker of rescued meals, carbon emissions (CO₂) prevented, and community funding.
 - **Financial Sponsorship Calculator**: Micro-donations calculator where ₹10 directly funds 1 rescued meal transit.
 
-### 🌓 5. Complete Theme Customization
+### 🤖 5. FoodRescue AI Assistant (RAG Knowledge Engine)
+- **Grounded Conversational Support**: Natural language conversational assistant answering queries regarding donor guidelines, NGO claiming, volunteer logistics, FSSAI hygiene rules, and direct INR meal sponsorship.
+- **RAG Architecture**: Ingests, chunks, and semantically indexes official FoodRescue India documentation using LangChain text splitters and Gemini high-dimensional embeddings (`gemini-embedding-2-preview`).
+- **Grounded Factual Guardrails**: System instructions strictly prevent hallucinations or invented policies, ensuring answers directly cite source documents.
+- **Interactive UI**: Floating chat widget with quick suggestion prompts, auto-scrolling message streams, source attribution badges, and responsive design.
+
+### 🌓 6. Complete Theme Customization
 - **Light & Dark Mode**: Persistent toggle with an eye-safe dark theme.
 
 ---
@@ -34,9 +40,45 @@ An intelligent surplus food redistribution platform connecting commercial banque
 ## 🛠️ Tech Stack
 
 - **Frontend**: React 18, TypeScript, Tailwind CSS, Lucide Icons, Canvas-Confetti
-- **Backend / API**: Node.js, Express (REST API endpoints for donations, claims, broadcasts, and user personas)
+- **Backend / API**: Node.js, Express (REST API endpoints for donations, claims, broadcasts, user personas, and AI chat)
+- **AI & RAG Pipeline**:
+  - `@google/genai` (Gemini 3.6 Flash / Gemini 3.1 Flash Lite LLMs & Gemini Embedding 2 Preview)
+  - `@langchain/textsplitters` (`RecursiveCharacterTextSplitter`)
+  - Modular Vector Store with Cosine Similarity Search & Persistent Cache
+- **Storage**: Dual-mode persistence (MongoDB Atlas or resilient local storage `data/db.json` & `data/vector-store.json`)
 - **Tooling & Build**: Vite, tsx, esbuild
 - **Type Checking**: TypeScript (`tsc --noEmit`)
+
+---
+
+## 🧠 AI Knowledge Base & RAG Architecture
+
+The platform includes an end-to-end Retrieval-Augmented Generation (RAG) pipeline:
+
+```text
+backend/ai/
+├── documents/                     # Structured domain knowledge base
+│   ├── platform-guide.txt         # Architecture, roles & overview
+│   ├── donor-guide.txt            # Food surplus listing & donor protocols
+│   ├── ngo-guide.txt              # Shelter eligibility & claiming procedures
+│   ├── volunteer-guide.txt        # Volunteer driver onboarding & mission steps
+│   ├── food-donation-guidelines.txt # Acceptable foods & quantity thresholds
+│   ├── food-safety.txt            # FSSAI compliance & 4-hour temperature rule
+│   ├── pickup-process.txt         # 4-stage end-to-end logistics workflow
+│   └── faq.txt                    # Frequently asked questions & answers
+├── embeddings.ts                  # Gemini & local fallback embedding providers
+├── vectorStore.ts                 # Modular vector store interface & cosine similarity
+├── ingest.ts                      # LangChain chunking & document ingestion pipeline
+├── retriever.ts                   # Semantic search & prompt context assembler
+├── chatbot.ts                     # Grounded RAG conversation generator with source citations
+└── test-rag.ts                    # Automated 7-point RAG verification suite
+```
+
+### RAG Workflow:
+1. **Document Ingestion (`npm run ingest`)**: Splits markdown/text knowledge documents into semantic chunks (700 chars with 120 char overlap), generates embeddings, and saves them to `data/vector-store.json`.
+2. **Semantic Retrieval**: Incoming user inquiries are converted to vector embeddings; top-k nearest chunks are retrieved using cosine similarity.
+3. **Prompt Augmentation**: Chunks are assembled into a grounded context window with strict system constraints.
+4. **Grounded Generation**: Gemini generates a factual response with source attribution.
 
 ---
 
@@ -45,6 +87,7 @@ An intelligent surplus food redistribution platform connecting commercial banque
 ### Prerequisites
 - [Node.js](https://nodejs.org/) (version 18.0 or higher)
 - [Git](https://git-scm.com/)
+- [Gemini API Key](https://aistudio.google.com/) (configured in `.env`)
 
 ### 1. Clone the Repository
 ```bash
@@ -52,12 +95,27 @@ git clone https://github.com/your-username/food-rescue-india.git
 cd food-rescue-india
 ```
 
-### 2. Install Dependencies
+### 2. Configure Environment Variables
+Copy `.env.example` to `.env` and provide your configuration:
+```env
+PORT=3000
+MONGODB_URI=
+GEMINI_API_KEY=your_gemini_api_key_here
+TOP_K=4
+VECTOR_DB_TYPE=local
+```
+
+### 3. Install Dependencies
 ```bash
 npm install
 ```
 
-### 3. Run Development Server
+### 4. Ingest Knowledge Base (Optional — auto-initializes on startup)
+```bash
+npm run ingest
+```
+
+### 5. Run Development Server
 ```bash
 npm run dev
 ```
@@ -69,10 +127,12 @@ Open your browser and visit: **`http://localhost:3000`**
 
 | Command | Description |
 | :--- | :--- |
-| `npm run dev` | Starts the local full-stack server (Express + Vite) on port 3000 |
-| `npm run build` | Compiles frontend assets and bundles the Node server to `dist/` |
-| `npm start` | Launches the production-bundled server |
-| `npm run lint` | Runs TypeScript compiler checks to ensure type safety |
+| `npm run dev` | Starts the full-stack server (Express + Vite) on port 3000 |
+| `npm run build` | Compiles frontend assets and bundles the application to `dist/` |
+| `npm start` | Launches the production server |
+| `npm run lint` | Runs TypeScript compiler checks (`tsc --noEmit`) |
+| `npm run ingest` | Ingests knowledge base documents into the vector store |
+| `npm run test:rag` | Executes the 7-case automated RAG test suite |
 
 ---
 
@@ -89,6 +149,7 @@ Open your browser and visit: **`http://localhost:3000`**
 │   │   ├── RegistrationScreen.tsx   # Multi-role authentication & registration
 │   │   ├── Navbar.tsx               # Navigation & theme switcher
 │   │   ├── Footer.tsx               # Footer with quick links & helpline info
+│   │   ├── FoodRescueChatbot.tsx    # Floating RAG AI conversational widget
 │   │   └── Modals/                  # Modals for new donations, ₹ funding, tracking, info
 │   ├── data/                        # Initial mock data & configurations
 │   ├── services/                    # API client layer (REST endpoints)
