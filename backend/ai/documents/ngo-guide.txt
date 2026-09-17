@@ -1,0 +1,36 @@
+================================================================================
+FOODRESCUE INDIA - NGO & SHELTER PARTNER GUIDE
+================================================================================
+
+1. ELIGIBILITY FOR NGO PARTNERS:
+Non-Governmental Organizations (NGOs), charitable trusts, registered shelters, orphanages, old-age homes, and community feeding initiatives dedicated to serving underprivileged and food-insecure populations across India can partner with FoodRescue India.
+
+2. NGO REGISTRATION:
+- Click on "Register" and select the "NGO / Shelter" role.
+- Provide contact person name, authorized email address, phone number, and official organization name (e.g., "Utkal Hope Foundation", "Seva Bharati Shelter").
+- Enter the operating city and facility physical address where food will be distributed or consumed.
+- Submit the registration to immediately gain access to the NGO Portal.
+
+3. HOW TO CLAIM AVAILABLE FOOD DONATIONS:
+- Log in and navigate to the NGO Portal.
+- The portal displays all active, unclaimed food surplus listings in your region with complete details: cuisine, servings count, weight, veg/non-veg status, and pickup window.
+- Click "Claim Donation" on the listing that matches your community's needs and capacity.
+- Enter the receiving coordinator name, phone number, and delivery destination shelter.
+- The status immediately transitions to "Claimed", notifying the donor and putting the rescue mission onto the volunteer dispatch board.
+
+4. POSTING URGENT NEED BROADCASTS:
+When shelters experience sudden spikes in residents or unexpected meal shortages:
+- In the NGO Portal, click "Create Need Broadcast".
+- Specify:
+  * Required Servings (e.g., 75 portions).
+  * Food Type Needed (e.g., Cooked Dal, Rice, Chapati, Baby Food, or Dry Groceries).
+  * Urgency Level: Medium (needed within 12 hours), High (needed within 4 hours), or Critical (needed within 2 hours).
+  * Time Needed By (e.g., "Dinner by 8:00 PM today").
+  * On-site coordinator name and phone number.
+- The broadcast appears prominently on the platform's Live Activity Feed and notifies registered food donors and caterers in the vicinity.
+
+5. DISTRIBUTION & HYGIENE REQUIREMENTS:
+- Distribute claimed cooked meals as quickly as possible upon receipt.
+- Conduct a quick sensory quality inspection (aroma, appearance, temperature) before serving.
+- Ensure all meal recipients have access to clean drinking water and clean dining utensils.
+- Store leftovers, if any, in hygienic cold storage or dispose of promptly if past safety thresholds.

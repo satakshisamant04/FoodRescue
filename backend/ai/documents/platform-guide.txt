@@ -1,0 +1,43 @@
+================================================================================
+FOODRESCUE INDIA - PLATFORM GUIDE & ARCHITECTURE OVERVIEW
+================================================================================
+
+1. WHAT IS FOODRESCUE INDIA?
+FoodRescue India is a digital food redistribution ecosystem designed to eliminate hunger and reduce edible food waste across India. The platform bridges the gap between surplus food generators (restaurants, banquet halls, corporate cafeterias, bakeries, hotels, caterers, and individuals) and grassroots hunger relief organizations (verified NGOs, community shelters, orphanages, and feeding drives), mobilized by a dedicated fleet of volunteer drivers.
+
+2. CORE USER ROLES & CAPABILITIES:
+- Food Donors (Commercial & Individuals):
+  * Register with business details or individual donor profile.
+  * List fresh surplus food batches in under 2 minutes.
+  * Categorize donations: Cooked Meals, Bakery, Fresh Produce, Dairy, or Packaged Groceries.
+  * Specify quantity (servings count and approximate weight in kg), veg/non-veg status, preparation time, safe consumption window, and storage instructions (ambient, refrigerated, frozen).
+  * Provide pickup address, landmark locality, city, and coordinator phone number.
+  * Track the live status of their donation through transparent milestones: Available -> Claimed by NGO -> Picked Up / In Transit -> Safely Delivered.
+
+- Verified NGOs & Shelters:
+  * Browse available food listings in real time filtered by city and food category.
+  * Claim food listings with a single click and coordinate logistics.
+  * Provide beneficiary capacity, shelter facility address, and contact details.
+  * Post "Urgent Need Broadcasts" when experiencing emergency meal shortages, specifying required servings, cuisine/food type, urgency level (Medium, High, Critical), and required delivery time.
+
+- Volunteer Rescue Drivers:
+  * View claimed food donations awaiting pickup in their local operational area.
+  * Accept rescue missions and choose transport modes (two-wheelers with insulated bags, three-wheelers/autos, cars, or delivery vans).
+  * Update live mission milestones: "En Route to Pickup", "Food Picked Up", "In Transit", and "Delivered to Shelter".
+  * Log rescue hours, total meals transported, and successful drops.
+
+3. FINANCIAL DONATIONS & MEAL SPONSORSHIP (INR):
+- In addition to surplus food listings, FoodRescue India operates a direct INR monetary meal sponsorship portal.
+- Cost benchmark: ₹10 sponsors 1 nutritious meal for a person in need.
+- Preset sponsorship options:
+  * ₹100 feeds 10 people.
+  * ₹500 feeds 50 people.
+  * ₹1,000 feeds 100 people.
+  * ₹5,000 feeds 500 people.
+  * Custom donation amounts are accepted.
+- Tax benefits: Eligible under Section 80G of the Indian Income Tax Act. Donors can provide their PAN number for instant digital 80G tax exemption receipts.
+
+4. PLATFORM INFRASTRUCTURE & PERSISTENCE:
+- Built on a modern full-stack MERN architecture (MongoDB, Express, React, Node.js + TypeScript).
+- Equipped with resilient dual persistence: connects to remote MongoDB Atlas clusters with an automatic local fallback store (data/db.json) to ensure zero data loss during network interruptions.
+- Interactive geographic exploration powered by Leaflet maps displaying real-time food surplus locations, active rescue missions, and regional redistribution hubs.

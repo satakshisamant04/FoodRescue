@@ -266,5 +266,39 @@ export const api = {
     } catch {
       return null;
     }
+  },
+
+  async askChatbot(payload: {
+    message: string;
+    history?: Array<{ role: 'user' | 'assistant'; content: string }>;
+  }): Promise<{
+    success: boolean;
+    answer?: string;
+    sources?: Array<{ document: string; docType?: string }>;
+    error?: string;
+  }> {
+    try {
+      const token = localStorage.getItem('foodrescue_token') || '';
+      const headers: Record<string, string> = {
+        'Content-Type': 'application/json',
+      };
+      if (token) {
+        headers['Authorization'] = `Bearer ${token}`;
+      }
+
+      const res = await fetch('/api/chat', {
+        method: 'POST',
+        headers,
+        body: JSON.stringify(payload),
+      });
+
+      const data = await res.json();
+      return data;
+    } catch (err) {
+      return {
+        success: false,
+        error: (err as Error).message || 'Failed to connect to FoodRescue AI server',
+      };
+    }
   }
 };

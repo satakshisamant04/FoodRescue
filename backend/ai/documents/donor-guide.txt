@@ -1,0 +1,42 @@
+================================================================================
+FOODRESCUE INDIA - DONOR GUIDE
+================================================================================
+
+1. WHO CAN BECOME A FOOD DONOR?
+Any organization or individual with unserved, wholesome, edible food can register as a Food Donor on FoodRescue India. Common donor categories include:
+- Restaurants, cafes, and diners
+- Banquet halls, wedding planners, and caterers
+- Corporate cafeterias and tech park dining centers
+- Bakeries, patisseries, and dessert kitchens
+- Hotels, resorts, and convention venues
+- Supermarkets, grocery stores, and food distributors
+- Event organizers and individual citizens
+
+2. HOW TO REGISTER AS A DONOR:
+- Click on "Register" or "Join as Donor" on the platform.
+- Enter your full name, email address, password, phone number (+91 format), and organization name (e.g., "The Oberoi Grand Kitchen", "Royal Feast Caterers").
+- Select your primary operating city (e.g., Bhubaneswar, Cuttack, Mumbai, Delhi, Bengaluru, Hyderabad).
+- Provide your FSSAI registration/license number (optional, but highly recommended for commercial food businesses to enhance trust and verification).
+- Submit the form to instantly access the Donor Portal.
+
+3. HOW TO LIST A FOOD DONATION:
+Step 1: Open the Donor Portal from the top navigation bar.
+Step 2: Click the primary "+ List Food Surplus" button.
+Step 3: Fill in the donation details:
+  - Title: Clear, descriptive name (e.g., "40 Portions Paneer Butter Masala & Steamed Rice", "Fresh Assorted Breads & Rolls").
+  - Food Category: Select from Cooked Meals, Bakery & Confectionery, Fresh Produce, Dairy Products, or Packaged Groceries.
+  - Servings Count: Estimated number of persons this food can nourish (e.g., 50 servings).
+  - Estimated Weight: Approximate total weight in kilograms (kg) (the system auto-estimates based on servings if left blank).
+  - Dietary Type: Pure Vegetarian (Green indicator), Non-Vegetarian (Red indicator), or Egg-containing (Yellow indicator).
+  - Storage Requirements: Ambient (room temperature), Refrigerated (chill 0°C to 4°C), or Frozen (below -18°C).
+  - Preparation & Expiry: When the food was prepared and the safe pickup/consumption window (e.g., "Must be consumed within 4 hours").
+  - Pickup Location: Accurate street address, landmark locality, city, and active contact phone number for the on-site dispatch coordinator.
+  - Notes: Any special packing or allergen details (e.g., "Packed in sealed aluminium trays; please bring clean transport crates").
+Step 4: Click "List Donation". Your donation is immediately broadcasted across the local NGO and volunteer network.
+
+4. DONOR RESPONSIBILITIES & BEST PRACTICES:
+- List food as early as possible. Do not wait until the final hour before closing to post surplus.
+- Maintain thermal hygiene: keep hot foods hot (>60°C) and cold foods refrigerated (<5°C) until the volunteer or NGO arrives.
+- Pack food in clean, food-grade, leak-proof containers or trays.
+- Keep a staff member designated as the pickup point of contact with phone active.
+- Verify the credentials of the receiving volunteer or NGO coordinator upon arrival before handing over the food parcels.

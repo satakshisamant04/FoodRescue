@@ -1,0 +1,35 @@
+================================================================================
+FOODRESCUE INDIA - FOOD SAFETY & HYGIENE PROTOCOLS
+================================================================================
+
+1. FSSAI & STATUTORY STANDARDS:
+FoodRescue India aligns its food safety guidelines with the standards prescribed by the Food Safety and Standards Authority of India (FSSAI) under the Food Safety and Standards (Recovery & Distribution of Surplus Food) Regulations:
+- Donors should follow Schedule 4 Good Hygiene Practices (GHP) and Good Manufacturing Practices (GMP).
+- Commercial kitchens with FSSAI licenses/registrations are prompted to supply their FSSAI number during platform onboarding.
+
+2. TEMPERATURE MANAGEMENT & THE 4-HOUR RULE:
+- The Danger Zone: Bacteria multiply rapidly between 5°C and 60°C (41°F to 140°F). Perishable foods must not remain in this zone for prolonged periods.
+- Hot Food Handling: Cooked hot meals should be held above 60°C until packaging and transported in insulated thermal containers.
+- Cold Food Handling: Perishable dairy, salads, and cut items must be maintained at or below 4°C.
+- The 4-Hour Clock: Cooked food must be picked up, delivered, and consumed within 4 hours of leaving temperature control. If this threshold is exceeded, the food cannot be served to beneficiaries.
+
+3. PACKAGING AND LABELLING REQUIREMENTS:
+- Use clean, food-grade packaging materials: aluminium foil trays with tight lids, food-grade plastic containers, or clean stainless steel transport vessels (degchis/tins).
+- Every batch should clearly state:
+  * Name of the food item
+  * Preparation date and time
+  * Dietary classification (Pure Veg with green dot, Non-Veg with red dot, Egg with yellow dot)
+  * Estimated consumption deadline
+  * Known major allergens (e.g., nuts, gluten, dairy)
+
+4. VEHICLE & TRANSPORT HYGIENE:
+- Volunteer vehicles must have clean, dedicated cargo space or sanitized insulated transport boxes.
+- Food containers must not be placed directly on vehicle floorboards without secondary protective liners or crates.
+- Raw and cooked foods must never be co-mingled in the same transport box.
+- Smoking, vaping, or transporting chemical substances in the same compartment as food is strictly forbidden.
+
+5. PRE-DISTRIBUTION QUALITY CHECK:
+Before serving meals to shelter residents, the NGO supervisor must perform an organoleptic sensory test:
+- Sight: Check for unusual coloring, mold growth, or foreign particles.
+- Smell: Verify normal, fresh aroma; discard immediately if rancid, sour, or fermented odors are detected.
+- Texture: Discard if sauces or gravies feel slimy or show unwanted bubbling.

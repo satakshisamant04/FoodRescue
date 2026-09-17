@@ -1,9 +1,12 @@
 import express, { Request, Response } from 'express';
 import cors from 'cors';
 import path from 'path';
+import fs from 'fs';
 import { fileURLToPath } from 'url';
 import { createServer as createViteServer } from 'vite';
 import { initDatabase, db, StoredUser, FoodDonationItem, NGOBroadcast, FundDonation } from './src/server/db.js';
+import { defaultChatbot } from './backend/ai/chatbot.js';
+import { runIngestion } from './backend/ai/ingest.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -351,11 +354,75 @@ app.post('/api/donate-funds', async (req: Request, res: Response) => {
 });
 
 // -------------------------------------------------------------
+// FoodRescue AI Assistant (RAG Chatbot Endpoint)
+// -------------------------------------------------------------
+app.post('/api/chat', async (req: Request, res: Response) => {
+  try {
+    const { message, history } = req.body;
+
+    if (!message || typeof message !== 'string' || !message.trim()) {
+      return res.status(400).json({
+        success: false,
+        error: 'Message is required and cannot be empty.',
+      });
+    }
+
+    if (message.trim().length > 1000) {
+      return res.status(400).json({
+        success: false,
+        error: 'Message is too long. Please limit your inquiry to 1000 characters.',
+      });
+    }
+
+    // Optional user context from authorization header or request
+    let userContext: any = undefined;
+    const authHeader = req.headers.authorization;
+    if (authHeader && authHeader.startsWith('Bearer ')) {
+      const token = authHeader.split(' ')[1];
+      const parts = token.split('_');
+      if (parts.length >= 3) {
+        const userId = parts[2];
+        const found = db.findUserById(userId);
+        if (found) {
+          userContext = { id: found.id, name: found.name, role: found.role };
+        }
+      }
+    }
+
+    const response = await defaultChatbot.answerQuestion({
+      message: message.trim(),
+      history: Array.isArray(history) ? history : undefined,
+      user: userContext,
+    });
+
+    res.json({
+      success: true,
+      answer: response.answer,
+      sources: response.sources,
+      retrievedCount: response.retrievedCount,
+    });
+  } catch (err) {
+    console.error('[API /api/chat] Error generating answer:', err);
+    res.status(500).json({
+      success: false,
+      error: (err as Error).message || 'Failed to process AI chat query',
+    });
+  }
+});
+
+// -------------------------------------------------------------
 // Server Start
 // -------------------------------------------------------------
 async function startServer() {
   // Initialize MongoDB / Disk Store
   await initDatabase();
+
+  // Ensure Vector Store exists, otherwise trigger background knowledge ingestion
+  const vectorStorePath = path.resolve(__dirname, 'data/vector-store.json');
+  if (!fs.existsSync(vectorStorePath)) {
+    console.log('🌱 Initializing FoodRescue vector knowledge base...');
+    runIngestion().catch((e) => console.warn('Background ingestion warning:', e));
+  }
 
   if (process.env.NODE_ENV !== 'production') {
     const vite = await createViteServer({

@@ -1,0 +1,46 @@
+================================================================================
+FOODRESCUE INDIA - PICKUP PROCESS & LOGISTICS WORKFLOW
+================================================================================
+
+1. END-TO-END WORKFLOW SUMMARY:
+The FoodRescue India pickup and delivery pipeline consists of 4 coordinated stages:
+
+Stage 1: Listing & Immediate Broadcast
+- The Donor creates a food listing via the Donor Portal.
+- Status is set to "AVAILABLE".
+- The listing immediately populates the NGO Portal and Impact Map.
+
+Stage 2: Claiming by Verified NGO
+- An eligible NGO identifies the surplus listing and clicks "Claim Donation".
+- The NGO inputs destination shelter details and coordinator phone.
+- Status shifts to "CLAIMED".
+- The mission is published to the Volunteer Dispatch Board.
+
+Stage 3: Volunteer Driver Assignment & Mission Acceptance
+- An active Volunteer in the locality views the claimed donation and clicks "Accept Mission".
+- Status shifts to "IN TRANSIT" / "ASSIGNED".
+- Volunteer contact information and vehicle type are shared with both Donor and NGO.
+- The volunteer proceeds to the donor kitchen.
+
+Stage 4: Pickup, Transport, and Safe Handover
+- Volunteer arrives at the donor facility, verifies packaging, and confirms pickup in the app ("Food Picked Up").
+- Volunteer transports food directly to the shelter using insulated bags or boxes.
+- Upon arrival at the shelter, the NGO verifies the items and accepts delivery.
+- Volunteer clicks "Mark Completed / Delivered".
+- Status shifts to "COMPLETED" and platform metrics (meals rescued, kg diverted) are credited to all parties.
+
+2. ON-SITE PICKUP PROTOCOL FOR DRIVERS:
+- Park safely in designated delivery/loading zones.
+- Introduce yourself to the kitchen manager as a FoodRescue volunteer.
+- Check that containers are sealed and steady before loading into the vehicle.
+- Never open sealed food lids or taste food samples.
+- Secure containers to prevent tipping during turns or braking.
+
+3. HANDLING UNEXPECTED DELAYS OR EMERGENCIES:
+- If running late due to traffic or vehicle breakdown:
+  * Immediately call both the donor contact and NGO coordinator using the phone numbers provided in the mission view.
+  * If the vehicle cannot proceed, notify platform support or re-broadcast the mission so a nearby volunteer driver can intercept and complete the delivery.
+- If the donor is unreachable upon arrival:
+  * Wait at the reception or loading dock for at least 15 minutes while attempting to call the registered coordinator.
+- If the food is visibly spoiled or smells off upon pickup:
+  * Politely inform the donor manager and do not accept the batch. Safety always takes precedence over volume.

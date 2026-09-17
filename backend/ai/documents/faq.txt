@@ -1,0 +1,36 @@
+================================================================================
+FOODRESCUE INDIA - FREQUENTLY ASKED QUESTIONS (FAQ)
+================================================================================
+
+Q1: What is FoodRescue India?
+A: FoodRescue India is a digital food redistribution platform connecting restaurants, caterers, hotels, corporate kitchens, and households with registered NGOs, community shelters, and volunteer drivers to rescue edible surplus food and feed food-insecure communities.
+
+Q2: Is there any cost to register or use the platform?
+A: No. FoodRescue India is completely free for food donors, registered NGOs, and volunteer drivers. Our mission is pure public service and hunger elimination.
+
+Q3: Can individual households donate food, or is it only for restaurants?
+A: Both! While commercial kitchens (restaurants, banquet halls, caterers) generate large volumes, individual citizens and families hosting events, weddings, or religious feasts can also list surplus meals as individual donors.
+
+Q4: What types of food can be donated?
+A: Freshly prepared cooked meals, bakery products and breads, fresh fruits and raw vegetables, pasteurized dairy products (milk, paneer, curd), and sealed packaged groceries. Leftovers from plates or half-eaten items are strictly prohibited.
+
+Q5: How does the pickup work? Who transports the food?
+A: After an NGO claims a food surplus listing, volunteer rescue drivers in the area receive a mission notification. A volunteer accepts the mission, picks up the sealed food containers from the donor's kitchen, and delivers them directly to the NGO's shelter or distribution facility.
+
+Q6: How does the 4-hour rule work for cooked food?
+A: To guarantee safety and prevent bacterial growth, freshly cooked meals must be picked up, transported, and distributed to beneficiaries within 4 hours of leaving temperature-controlled storage.
+
+Q7: What is an Urgent Need Broadcast?
+A: An Urgent Need Broadcast is an emergency request created by a registered NGO or shelter facing an unexpected meal shortage. The broadcast specifies the required servings, food type, and deadline, alerting local donors and kitchens.
+
+Q8: How can I donate money to sponsor meals?
+A: You can click "Sponsor Meals" in the navigation bar. Contributions in Indian Rupees (INR) directly fund hot meals prepared for vulnerable individuals at ₹10 per meal. For example, ₹500 provides 50 wholesome meals. Donations qualify for 80G tax exemptions, and digital receipts are generated instantly.
+
+Q9: Is FSSAI registration mandatory for donors?
+A: FSSAI registration is strongly encouraged for commercial food businesses and restaurants to foster trust and quality compliance. However, individuals or small community kitchens without a commercial license can still donate unserved home-cooked food provided they adhere to all platform safety and hygiene protocols.
+
+Q10: What cities does FoodRescue India operate in?
+A: FoodRescue India is active in multiple Indian cities with hubs in Bhubaneswar, Cuttack, Mumbai, Delhi-NCR, Bengaluru, Hyderabad, and expanding across India.
+
+Q11: Can I delete or update my account on FoodRescue India?
+A: Yes. Users can manage their account profile, switch roles, or permanently delete their user profile from MongoDB and local storage directly through the Account Menu or Profile Modal.

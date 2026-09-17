@@ -14,6 +14,7 @@ import { DonateModal } from './components/Modals/DonateModal';
 import { InfoModal } from './components/Modals/InfoModal';
 import { ProfileModal } from './components/Modals/ProfileModal';
 import { Footer } from './components/Footer';
+import { FoodRescueChatbot } from './components/FoodRescueChatbot';
 
 const DEFAULT_GUEST_USER: UserProfile = {
   id: 'guest',
@@ -850,6 +851,9 @@ export default function App() {
         onClose={() => setInfoModalType(null)}
         onOpenDonateModal={() => setIsDonateFundsOpen(true)}
       />
+
+      {/* RAG-based AI Chatbot */}
+      <FoodRescueChatbot />
     </div>
   );
 }

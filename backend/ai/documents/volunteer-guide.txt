@@ -1,0 +1,43 @@
+================================================================================
+FOODRESCUE INDIA - VOLUNTEER DRIVER GUIDE
+================================================================================
+
+1. ROLE OF VOLUNTEER RESCUE DRIVERS:
+Volunteer Drivers are the mobile lifeline of FoodRescue India. They bridge the physical distance between donor kitchens and beneficiary shelters by safely picking up, transporting, and handing over food parcels before perishable windows expire.
+
+2. VOLUNTEER REGISTRATION:
+- Select the "Volunteer Driver" role during registration.
+- Provide full name, email, mobile phone number, operating city, and primary vehicle type:
+  * Two-Wheeler / Scooter / Motorbike (equipped with insulated food bag or carrier box).
+  * Three-Wheeler / Auto.
+  * Car / SUV / Hatchback.
+  * Commercial Delivery Van / Electric Mini-Truck.
+- Submit registration to enter the Volunteer Portal.
+
+3. ACCEPTING RESCUE MISSIONS:
+- Navigate to the Volunteer Portal to view "Available Rescue Missions" (donations that have been claimed by an NGO and are waiting for transport).
+- Review mission specifics:
+  * Pickup location (donor address, landmark, contact phone).
+  * Dropoff location (receiving shelter facility, NGO coordinator contact).
+  * Food cargo details (servings count, weight in kg, storage conditions, dietary tags).
+- Click "Accept Mission". This assigns you to the delivery dispatch and updates the donor and NGO in real time.
+
+4. STEP-BY-STEP MISSION EXECUTION & MILESTONES:
+Step 1: En Route to Donor Kitchen
+- Contact the donor coordinator via phone if route directions or gate access codes are required.
+- Arrive at the donor location with sanitized insulated bags or crates.
+
+Step 2: Pickup Verification & Status Update
+- Inspect the parcels: verify secure sealing, thermal temperature, and absence of leaks.
+- In the Volunteer Portal, tap "Confirm Food Picked Up".
+- The mission status moves to "In Transit", giving the receiving shelter live visibility.
+
+Step 3: Safe Transportation
+- Maintain smooth driving to avoid food spillage or container damage.
+- Keep hot and cold food batches separated in appropriate insulated containers.
+- Travel directly to the designated NGO dropoff point without unnecessary diversions.
+
+Step 4: Delivery Handover & Completion
+- Arrive at the shelter and hand over the food to the designated NGO coordinator.
+- In the portal, click "Mark Mission Completed / Delivered".
+- Your profile statistics will automatically update with the meals delivered, rescue missions completed, and volunteer hours logged.
